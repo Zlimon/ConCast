@@ -28,8 +28,8 @@
 			<button type="submit" class="btn btn-primary mb-2"><i class="fas fa-search"></i></button>
 		</form>
 
-		@if ($query)
-			<h1 class="modal-header">Search results for "{{ $query }}"</h1>
+		@if ($searchQuery)
+			<h1 class="modal-header">Search results for "{{ $searchQuery }}"</h1>
 
 			<div class="card-columns">
 				@foreach ($podcasts as $podcast)
