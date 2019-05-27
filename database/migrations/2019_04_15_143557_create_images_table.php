@@ -21,6 +21,16 @@ class CreateImagesTable extends Migration
             $table->integer('image_file_size');
             $table->timestamps();
         });
+
+        DB::table('images')->insert(
+            [
+                'id' => 1,
+                'image_file_name' => 'default',
+                'image_file_extension' => 'png',
+                'image_file_type' => 'image/png',
+                'image_file_size' => 0
+            ]
+        );
     }
 
     /**

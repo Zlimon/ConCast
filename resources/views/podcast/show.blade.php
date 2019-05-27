@@ -1,21 +1,21 @@
 @extends('layouts.layout')
 
 @section('title')
-    | {{ __('title.show-podcast') }} "{{ $podcast->podcast_title }}"
+    | Listen to: "{{ $podcast->podcast_title }}"
 @endsection
 
 @section('content')
     <div class="col-md-12">
         <div class="card">
             <div class="card-header">
-                <span><a href="/">{{ __('title.home') }}</a> <i class="fas fa-long-arrow-alt-right"></i> <a href="/channel">{{ __('title.channel') }}</a> <i class="fas fa-long-arrow-alt-right"></i> <a href="/channel/{{ $podcast->channel->id }}">{{ $podcast->channel->channel_name }}</a> <i class="fas fa-long-arrow-alt-right"></i> {{ __('title.show-podcast') }} <b>{{ $podcast->podcast_title }}</b></span>
+                <span><a href="/">Home</a> <i class="fas fa-long-arrow-alt-right"></i> <a href="/channel">Channel</a> <i class="fas fa-long-arrow-alt-right"></i> <a href="/channel/{{ $podcast->channel->id }}">{{ $podcast->channel->channel_name }}</a> <i class="fas fa-long-arrow-alt-right"></i> Listen to: <b>{{ $podcast->podcast_title }}</b></span>
                 <span class="float-right"><a href="/channel/{{ $podcast->channel->id }}/podcast/{{ $podcast->id }}/edit"><i class="fas fa-edit"></i> Edit {{ $podcast->podcast_title }}</a></span>
             </div>
 
             <div class="card-body">
                 <div class="row">
                     <div class="col-3">
-                        <img class="rounded" src="{{ url('/storage')}}/{{ $podcast->image->image_file_name }}.{{ $podcast->image->image_file_extension }}" alt="Podcast icon" title="{{ $podcast->podcast_title }}" width="256px" height="256px" />
+                        <img class="rounded" src="{{ url('/storage/image')}}/{{ $podcast->channel->image->image_file_name }}.{{ $podcast->channel->image->image_file_extension }}" alt="Podcast icon" title="{{ $podcast->podcast_title }}" width="256px" height="256px" />
                         <h2 class="mt-2"><a href="/channel/{{ $podcast->channel->id }}">{{ $podcast->channel->channel_name }}</a></h2>
                         <h4>{{ number_format($podcast->channel->subscriptions->count()) }} subscribers</h4>
                         <p>Latest upload: {{ Helper::calculatePostTime($latestUpload->created_at) }}</p>
@@ -80,10 +80,6 @@
                             <button class="btn btn-dark btn-lg"><i class="fas fa-share"></i> Share this podcast</button>
                         </div>
 
-                        <div class="text-center mt-3">
-                            <a class="btn btn-primary btn-lg" href="{{ url('/storage', $podcast->audio->audio_file_name . '.' . $podcast->audio->audio_file_extension) }}" download>Download {{ $podcast->podcast_title }}</a>
-                        </div>
-
                         <section class="audio-player card mt-3">
                             <div class="card bg-dark">
                                 <div class="card-body">
@@ -92,8 +88,8 @@
                                         <i id="play-button"class="material-icons play-pause text-primary mr-2" aria-hidden="true">play_circle_outline</i>
                                         <i id="pause-button"class="material-icons play-pause d-none text-primary mr-2" aria-hidden="true">pause_circle_outline</i>
                                         <i id="next-button"class="material-icons text-primary ml-2 mr-3" aria-hidden="true">skip_next</i>
-                                        <div class="col ml-auto rounded-circle border border-primary p-1">
-                                            <img id="thumbnail" class="img-fluid rounded-circle" src="{{ url('/storage')}}/{{ $podcast->image->image_file_name }}.{{ $podcast->image->image_file_extension }}" alt="">
+                                        <div class="col ml-auto rounded-circle p-1">
+                                            <img id="thumbnail" class="img-fluid rounded-circle" src="{{ url('/storage/image')}}/{{ $podcast->channel->image->image_file_name }}.{{ $podcast->channel->image->image_file_extension }}" alt="">
                                         </div>
                                     </div>
                                     <div class="p-0 m-0 text-light" id="now-playing">
@@ -103,19 +99,17 @@
                                     <div class="progress-bar progress col-12 mb-3"></div>
                                 </div>
                                 <ul class="playlist list-group list-group-flush">
-                                    <li class="list-group-item"><a href="{{ url('/storage', $podcast->audio->audio_file_name . '.' . $podcast->audio->audio_file_extension) }}" download>Download {{ $podcast->podcast_title }}</a></li>
-                                    <li audio_url="{{ url('/storage', $podcast->audio->audio_file_name . '.' . $podcast->audio->audio_file_extension) }}"
-                                    img_url="{{ url('/storage')}}/{{ $podcast->image->image_file_name }}.{{ $podcast->image->image_file_extension }}"
+                                    <li audio_url="{{ url('/storage/audio', $podcast->audio->audio_file_name . '.' . $podcast->audio->audio_file_extension) }}"
+                                    img_url="{{ url('/storage/image')}}/{{ $podcast->channel->image->image_file_name }}.{{ $podcast->channel->image->image_file_extension }}"
                                     class="active list-group-item playlist-item">
                                     {{ $podcast->podcast_title }}</li>
 
                                 </ul>
-                                <!-- <div class="card-body">
-                                    <a href="#" class="card-link">Card link</a>
-                                    <a href="#" class="card-link">Another link</a>
-                                </div> !-->
+                                 <div class="card-body">
+                                    <a class="btn btn-primary btn-lg" href="{{ url('/storage/audio', $podcast->audio->audio_file_name . '.' . $podcast->audio->audio_file_extension) }}" download>Download {{ $podcast->podcast_title }}</a>
+                                </div>
                             </div>
-                            <audio id="audio-player" class="d-none" src="" type="{{ url('/storage', $podcast->audio->audio_file_name . '.' . $podcast->audio->audio_file_extension) }}" controls="controls"></audio>
+                            <audio id="audio-player" class="d-none" src="" type="{{ url('/storage/audio', $podcast->audio->audio_file_name . '.' . $podcast->audio->audio_file_extension) }}" controls="controls"></audio>
                         </section>
 
                         <h1 class="modal-header">Comments</h1>
@@ -141,7 +135,7 @@
                                     <p>
                                         <span>{{ $comment->comment_text }}</span>
                                         <br>
-                                        <span class="float-right text-info"><i class="fas fa-clock"></i> {{ \ConCast\Http\Controllers\CalculateTime::calculatePostTime($comment->created_at) }}</span>
+                                        <span class="float-right text-info"><i class="fas fa-clock"></i> {{ Helper::calculatePostTime($comment->created_at) }}</span>
                                     </p>
                                 </div>
                             @endforeach

@@ -12,7 +12,7 @@
             @foreach ($popularPodcasts as $podcast)
                 <div class="col mb-4">
                     <div class="card bg-dark text-white">
-                        <img class="card-img img-fluid" style="height: 250px;" src="{{ url('/storage')}}/{{ $podcast->image->image_file_name }}.{{ $podcast->image->image_file_extension }}" alt="Card image" />
+                        <img class="card-img img-fluid" style="height: 250px;" src="{{ url('/storage/image')}}/{{ $podcast->channel->image->image_file_name }}.{{ $podcast->channel->image->image_file_extension }}" alt="Card image" />
                         <div class="card-img-overlay">
                             <h2 class="card-text bg-dark" style="background: rgba(122, 130, 136, 0.5)!important;">{{ $podcast->podcast_title }}</h2>
                         </div>
@@ -30,7 +30,7 @@
                         @foreach ($suggestedPodcasts as $podcast)
                             <div class="col mb-4">
                                 <div class="card bg-dark text-white">
-                                    <img class="card-img img-fluid" style="height: 150px;" src="{{ url('/storage')}}/{{ $podcast->image->image_file_name }}.{{ $podcast->image->image_file_extension }}" alt="Card image" />
+                                    <img class="card-img img-fluid" style="height: 150px;" src="{{ url('/storage/image')}}/{{ $podcast->channel->image->image_file_name }}.{{ $podcast->channel->image->image_file_extension }}" alt="Card image" />
                                     <div class="card-img-overlay">
                                         <h4 class="card-text bg-dark" style="background: rgba(122, 130, 136, 0.5)!important;">{{ $podcast->podcast_title }}</h4>
                                     </div>
@@ -64,14 +64,14 @@
                     @foreach ($recentPodcasts as $podcast)
                         <div class="p-3 border-bottom">
                             <a href="/channel/{{ $podcast->channel->id }}/podcast/{{ $podcast->id }}">
-                                <img class="mr-3 float-left bg-dark rounded" src="{{ url('/storage')}}/{{ $podcast->image->image_file_name }}.{{ $podcast->image->image_file_extension }}" alt="Podcast icon" title="{{ $podcast->podcast_title }}" width="100px" height="100px" />
+                                <img class="mr-3 float-left bg-dark rounded" src="{{ url('/storage/image')}}/{{ $podcast->channel->image->image_file_name }}.{{ $podcast->channel->image->image_file_extension }}" alt="Podcast icon" title="{{ $podcast->podcast_title }}" width="100px" height="100px" />
                                 <span><b>{{ $podcast->podcast_title }}</b></span>
                             </a>
                             <br>
                             <span>
-                                {{ \ConCast\Http\Controllers\CalculateTime::calculatePostTime($podcast->created_at) }}
+                                {{ Helper::calculatePostTime($podcast->created_at) }}
                                 |
-                                {{ \ConCast\Http\Controllers\CalculateTime::calculateAudioLength($podcast->audio->audio_file_length) }}
+                                {{ Helper::calculateAudioLength($podcast->audio->audio_file_length) }}
                             </span>
                             <br>
                             <span>Uploaded by: <b><a href="/channel/{{ $podcast->channel->id }}">{{ $podcast->channel->channel_name }}</a></b></span>

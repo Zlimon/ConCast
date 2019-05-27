@@ -38,26 +38,24 @@
                     <!-- Left Side Of Navbar -->
                     <ul class="navbar-nav mr-auto">
                         <li class="nav-item active">
-                            <a class="nav-link" href="/"><i class="fas fa-home"></i> {{ __('Home') }} <span class="sr-only">(current)</span></a>
+                            <a class="nav-link" href="/"><i class="fas fa-home"></i> Home <span class="sr-only">(current)</span></a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="/discover">{{ __('title.podcast') }}</a>
+                            <a class="nav-link" href="/discover">Podcasts</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="/channel">{{ __('title.channel') }}</a>
+                            <a class="nav-link" href="/channel">Channels</a>
                         </li>
                         @guest
                             <li class="nav-item">
-                                <a class="nav-link" href="{{ route('login') }}">{{ __('Login') }}</a>
+                                <a class="nav-link" href="{{ route('login') }}">Login</a>
                             </li>
-                            @if (Route::has('register'))
-                                <li class="nav-item">
-                                    <a class="nav-link" href="{{ route('register') }}">{{ __('Register') }}</a>
-                                </li>
-                            @endif
+                            <li class="nav-item">
+                                <a class="nav-link" href="{{ route('register') }}">Register</a>
+                            </li>
                         @else
                             <li class="nav-item">
-                                <a class="nav-link" href="/upload">{{ __('title.upload') }}</a>
+                                <a class="nav-link" href="/upload">Upload</a>
                             </li>
                             <li class="nav-item dropdown">
                                 <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
@@ -65,7 +63,7 @@
                                 </a>
 
                                 <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
-                                    <a class="dropdown-item" href="/profile">{{ __('title.profile') }}</a>
+                                    <a class="dropdown-item" href="/profile">Profile</a>
                                     <a class="dropdown-item" href="/profile/channel">Your channels</a>
                                     <a class="dropdown-item" href="/profile/podcast">Your podcasts</a>
                                     <a class="dropdown-item" href="{{ route('logout') }}"
@@ -90,12 +88,12 @@
 
                                 <input id="search" type="text" class="form-control mr-sm-2 @error('search') is-invalid @enderror" name="search" value="{{ old('search') }}" placeholder="Search channels and podcasts">
 
-                                <button class="btn btn-outline my-2 my-sm-0" type="submit">{{ __('title.search') }}</button>
+                                <button class="btn btn-outline my-2 my-sm-0" type="submit">Search</button>
                             </form>
                         </li>
                         <li class="nav-item">
                             <button type="button" class="btn btn-success">
-                                <a style="color: white;" href="/upgrade"><i class="fas fa-star"></i>{{ __('title.upgrade') }}</a>
+                                <a style="color: white;" href="/upgrade"><i class="fas fa-star"></i>Upgrade</a>
                             </button>
                         </li>
 

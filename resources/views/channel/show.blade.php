@@ -8,13 +8,17 @@
     <div class="col-md-12">
         <div class="card">
             <div class="card-header">
-                <span><a href="/">{{ __('title.home') }}</a> <i class="fas fa-long-arrow-alt-right"></i> <a href="/channel">{{ __('title.channel') }}</a> <i class="fas fa-long-arrow-alt-right"></i> {{ $channel->channel_name }}</span>
+                <span><a href="/">Home</a> <i class="fas fa-long-arrow-alt-right"></i> <a href="/channel">Channel</a> <i class="fas fa-long-arrow-alt-right"></i> {{ $channel->channel_name }}</span>
                 <span class="float-right"><a href="/channel/{{ $channel->id }}/edit"><i class="fas fa-edit"></i> Edit {{ $channel->channel_name }}</a></span>
             </div>
 
             <div class="card-body">
-                <div class="row">
-                    <div class="col-8">
+                <div class="row mb-3">
+                    <div class="col-3">
+                        <img class="rounded" style="width: 100%;" src="{{ url('/storage/image')}}/{{ $channel->image->image_file_name }}.{{ $channel->image->image_file_extension }}" alt="Podcast icon" title="{{ $channel->channel_name }}">
+                    </div>
+
+                    <div class="col-5">
                         <h1 class="input-group">
                             {{ $channel->channel_name }}
 
@@ -66,8 +70,6 @@
                 </div>
 
                 @if ($channel->podcasts->count())
-                    <h2>Podcasts</h2>
-
                     <section class="audio-player card mt-3">
                         <div class="card bg-dark">
                             <div class="card-body">
@@ -76,8 +78,8 @@
                                     <i id="play-button"class="material-icons play-pause text-primary mr-2" aria-hidden="true">play_circle_outline</i>
                                     <i id="pause-button"class="material-icons play-pause d-none text-primary mr-2" aria-hidden="true">pause_circle_outline</i>
                                     <i id="next-button"class="material-icons text-primary ml-2 mr-3" aria-hidden="true">skip_next</i>
-                                    <div class="col ml-auto rounded-circle border border-primary p-1">
-                                        <img id="thumbnail" class="img-fluid rounded-circle" src="{{ url('/storage')}}/{{ $first[0]->image->image_file_name }}.{{ $first[0]->image->image_file_extension }}" alt="">
+                                    <div class="col ml-auto rounded-circle p-1">
+                                        <img id="thumbnail" class="img-fluid rounded-circle" src="{{ url('/storage/image')}}/{{ $first[0]->channel->image->image_file_name }}.{{ $first[0]->channel->image->image_file_extension }}" alt="">
                                     </div>
                                 </div>
                                 <div class="p-0 m-0 text-light" id="now-playing">
@@ -89,15 +91,15 @@
                             <ul class="playlist list-group list-group-flush">
                                 @foreach ($channel->podcasts as $podcast)
                                     @if ($loop->first)
-                                        <li audio_url="{{ url('/storage', $podcast->audio->audio_file_name . '.' . $podcast->audio->audio_file_extension) }}"
-                                        img_url="{{ url('/storage')}}/{{ $podcast->image->image_file_name }}.{{ $podcast->image->image_file_extension }}"
-                                        class="active list-group-item playlist-item"><a style="color: black;" href="{{ url('/storage', $podcast->audio->audio_file_name . '.' . $podcast->audio->audio_file_extension) }}" download>Download {{ $podcast->podcast_title }}</a> - <a style="color: black;" href="/channel/{{ $channel->id }}/podcast/{{ $podcast->id }}">Visit podcast</a></li>
+                                        <li audio_url="{{ url('/storage/audio', $podcast->audio->audio_file_name . '.' . $podcast->audio->audio_file_extension) }}"
+                                        img_url="{{ url('/storage/image')}}/{{ $podcast->channel->image->image_file_name }}.{{ $podcast->channel->image->image_file_extension }}"
+                                        class="active list-group-item playlist-item"><a style="color: black;" href="{{ url('/storage/audio', $podcast->audio->audio_file_name . '.' . $podcast->audio->audio_file_extension) }}" download>Download {{ $podcast->podcast_title }}</a> - <a style="color: black;" href="/channel/{{ $channel->id }}/podcast/{{ $podcast->id }}">Visit podcast</a></li>
 
                                         @continue
                                     @endif
-                                    <li audio_url="{{ url('/storage', $podcast->audio->audio_file_name . '.' . $podcast->audio->audio_file_extension) }}"
-                                    img_url="{{ url('/storage')}}/{{ $podcast->image->image_file_name }}.{{ $podcast->image->image_file_extension }}"
-                                    class="list-group-item playlist-item"><a style="color: black;" href="{{ url('/storage', $podcast->audio->audio_file_name . '.' . $podcast->audio->audio_file_extension) }}" download>Download {{ $podcast->podcast_title }}</a> - <a style="color: black;" href="/channel/{{ $channel->id }}/podcast/{{ $podcast->id }}">Visit podcast</a></li>
+                                    <li audio_url="{{ url('/storage/audio', $podcast->audio->audio_file_name . '.' . $podcast->audio->audio_file_extension) }}"
+                                    img_url="{{ url('/storage/image')}}/{{ $podcast->channel->image->image_file_name }}.{{ $podcast->channel->image->image_file_extension }}"
+                                    class="list-group-item playlist-item"><a style="color: black;" href="{{ url('/storage/audio', $podcast->audio->audio_file_name . '.' . $podcast->audio->audio_file_extension) }}" download>Download {{ $podcast->podcast_title }}</a> - <a style="color: black;" href="/channel/{{ $channel->id }}/podcast/{{ $podcast->id }}">Visit podcast</a></li>
                                 @endforeach
                             </ul>
                             <!-- <div class="card-body">
@@ -105,7 +107,7 @@
                                 <a href="#" class="card-link">Another link</a>
                             </div> !-->
                         </div>
-                        <audio id="audio-player" class="d-none" src="" type="{{ url('/storage', $first[0]->audio->audio_file_name . '.' . $first[0]->audio->audio_file_extension) }}" controls="controls"></audio>
+                        <audio id="audio-player" class="d-none" src="" type="{{ url('/storage/audio', $first[0]->audio->audio_file_name . '.' . $first[0]->audio->audio_file_extension) }}" controls="controls"></audio>
                     </section>
                 @else
                     <p class="text-center">This channel doesn't have any content</p>

@@ -11,6 +11,6 @@ class Image extends Model
 	];
 
     public function image() {
-    	return $this->hasMany(Podcast::class);
+    	return $this->hasMany(Channel::class);
     }
 }

@@ -20,6 +20,7 @@ class CreateChannelsTable extends Migration
             $table->string('channel_email')->nullable();
             $table->string('channel_facebook')->nullable();
             $table->string('channel_twitter')->nullable();
+            $table->bigInteger('image_id')->unsigned();
             $table->bigInteger('user_id')->unsigned();
             $table->timestamps();
         });

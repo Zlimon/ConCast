@@ -11,6 +11,7 @@
         <div class="card-columns">
             @foreach ($channels as $channel)
                 <div class="card">
+                    <img class="card-img-top" src="{{ url('/storage/image')}}/{{ $channel->image->image_file_name }}.{{ $channel->image->image_file_extension }}" alt="Podcast icon" title="{{ $channel->channel_name }}" height="250px">
                     <div class="card-body">
                         <h5 class="card-title">{{ $channel->channel_name }}</h5>
                         <p class="card-text"><b>{{ $channel->channel_bio }}</b></p>

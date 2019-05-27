@@ -1,12 +1,12 @@
 @extends('layouts.layout')
 
 @section('title')
-    | {{ __('title.upgrade') }}
+    | Upgrade
 @endsection
 
 @section('content')
     <div class="col-md-12">
-        <h1 class="modal-header">{{ __('title.upgrade') }}</h1>
+        <h1 class="modal-header">Upgrade</h1>
 
         <div class="card-deck">
             <div class="card">

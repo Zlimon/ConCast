@@ -1,14 +1,14 @@
 @extends('layouts.layout')
 
 @section('title')
-    | {{ Auth::user()->name }}
+    | Your podcasts
 @endsection
 
 @section('content')
     <div class="col-md-12">
         <div class="card">
             <div class="card-header">
-                <span><a href="/">{{ __('title.home') }}</a> <i class="fas fa-long-arrow-alt-right"></i> <a href="/profile">{{ __('title.profile') }}</a> <i class="fas fa-long-arrow-alt-right"></i> <a href="/profile">{{ Auth::user()->name }}</a> <i class="fas fa-long-arrow-alt-right"></i> Podcasts</span>
+                <span><a href="/">Home</a> <i class="fas fa-long-arrow-alt-right"></i> <a href="/profile">Profile</a> <i class="fas fa-long-arrow-alt-right"></i> <a href="/profile">{{ Auth::user()->name }}</a> <i class="fas fa-long-arrow-alt-right"></i> Your podcasts</span>
                 <span class="float-right"><a href="/profile/edit"><i class="fas fa-edit"></i> Edit profile</a></span>
             </div>
 

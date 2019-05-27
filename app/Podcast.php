@@ -18,10 +18,6 @@ class Podcast extends Model
         return $this->belongsTo(Audio::class);
     }
 
-    public function image() {
-        return $this->belongsTo(Image::class);
-    }
-
     public function storeComment($userId = null) {
         if (auth()->id()) {
             $this->comment()->create([

@@ -7,13 +7,15 @@ use Illuminate\Database\Eloquent\Model;
 class Channel extends Model
 {
     protected $fillable = [
-        'channel_name', 'channel_bio', 'channel_email', 'channel_facebook', 'channel_twitter','user_id'
+        'image_id', 'channel_name', 'channel_bio', 'channel_email', 'channel_facebook', 'channel_twitter','user_id'
     ];
-
-    // protected $guarded = [];
 
     public function podcasts() {
         return $this->hasMany(Podcast::class);
+    }
+
+    public function image() {
+        return $this->belongsTo(Image::class);
     }
 
     public function user() {
@@ -23,7 +25,7 @@ class Channel extends Model
     public function subscribe($userId = null)
     {
         $this->subscriptions()->create([
-            'user_id' => $userId ?: auth()->id()
+            'user_id' => $userId ? : auth()->id()
         ]);
         return $this;
     }
@@ -31,7 +33,7 @@ class Channel extends Model
     public function unsubscribe($userId = null)
     {
         $this->subscriptions()
-            ->where('user_id', $userId ?: auth()->id())
+            ->where('user_id', $userId ? : auth()->id())
             ->delete();
     }
 

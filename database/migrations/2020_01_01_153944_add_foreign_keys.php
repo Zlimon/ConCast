@@ -14,6 +14,7 @@ class AddForeignKeys extends Migration
     public function up()
     {
         Schema::table('channels', function($table) {
+            $table->foreign('image_id')->references('id')->on('images');
             $table->foreign('user_id')->references('id')->on('users');
         });
 
@@ -29,7 +30,6 @@ class AddForeignKeys extends Migration
         Schema::table('podcasts', function($table) {
             $table->foreign('channel_id')->references('id')->on('channels');
             $table->foreign('audio_id')->references('id')->on('audio');
-            $table->foreign('image_id')->references('id')->on('images');
         });
 
         Schema::table('categories', function($table) {

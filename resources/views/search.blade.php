@@ -16,7 +16,7 @@
 			<div class="col-md-3"></div>
 
 			<div class="col-md-6 mb-2">
-				<input id="search" type="text" class="form-control @error('search') is-invalid @enderror" name="search" value="{{ old('search') }}" placeholder="" autofocus required>
+				<input id="search" type="text" class="form-control @error('search') is-invalid @enderror" name="search" value="{{ old('search') }}" autofocus required>
 				
 				@error('search')
 					<span class="invalid-feedback" role="alert">
@@ -34,7 +34,7 @@
 			<div class="card-columns">
 				@foreach ($podcasts as $podcast)
 					<div class="card">
-						<img class="card-img-top" src="{{ url('/storage')}}/{{ $podcast->image->image_file_name }}.{{ $podcast->image->image_file_extension }}" alt="Podcast icon" title="{{ $podcast->podcast_title }}" width="150px" height="150px" />
+						<img class="card-img-top" src="{{ url('/storage/image')}}/{{ $podcast->channel->image->image_file_name }}.{{ $podcast->channel->image->image_file_extension }}" alt="Podcast icon" title="{{ $podcast->podcast_title }}" width="150px" height="150px" />
 						<div class="card-body">
 							<h5 class="card-title">{{ $podcast->podcast_title }}</h5>
 							<p class="card-text">
@@ -48,7 +48,7 @@
 						</div>
 						<div class="card-footer">
 							<small class="text-muted">
-								{{ \ConCast\Http\Controllers\CalculateTime::calculatePostTime($podcast->created_at) }}
+								{{ Helper::calculatePostTime($podcast->created_at) }}
 								by
 								<a href="/channel/{{ $podcast->channel->id }}">{{ $podcast->channel->channel_name }}</a>
 							</small>

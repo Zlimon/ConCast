@@ -18,11 +18,6 @@ class Helper
         }
     }
 
-    /**
-     * Calculates the next hour.
-     *
-     * @return
-     */
     public static function calculatePostTime($createData) {
         $timeAgo = Carbon::parse($createData)->diffForHumans();
 
