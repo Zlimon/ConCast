@@ -11,19 +11,19 @@ use Illuminate\Support\Facades\DB;
 class ChannelController extends Controller
 {
     public function index() {
-        if (Auth::check()) {
-            $channels = Channel::where('user_id', Auth::user()->id)->get();
-        } else {
-            $channels = Channel::get();
-        }
+        $channels = Channel::get();
 
-        return view('channel.channel', compact('channels'));
+        $latestUpload = Podcast::with('channel')->orderByDesc('created_at')->first();
+
+        return view('channel.channel', compact('channels', 'latestUpload'));
     }
 
     public function show(Channel $channel) {
         $first = Podcast::find($channel);
 
-        return view('channel.show', compact('channel', 'first'));
+        $latestUpload = Podcast::with('channel')->orderByDesc('created_at')->first();
+
+        return view('channel.show', compact('channel', 'first', 'latestUpload'));
     }
 
     public function create() {
@@ -36,7 +36,7 @@ class ChannelController extends Controller
 
     public function store() {
         request()->validate([
-            'channel_name' => ['required', 'min:3', 'max:25'],
+            'channel_name' => ['required', 'min:3', 'max:50'],
             'channel_bio' => ['max:255']
         ]);
 
@@ -68,7 +68,7 @@ class ChannelController extends Controller
 
     public function update(Channel $channel) {
         $channel->update(request()->validate([
-            'channel_name' => ['required', 'min:3', 'max:25'],
+            'channel_name' => ['required', 'min:3', 'max:50'],
             'channel_bio' => ['max:255']
         ]));
 

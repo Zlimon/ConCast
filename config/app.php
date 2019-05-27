@@ -229,6 +229,7 @@ return [
 
         'Form' => Collective\Html\FormFacade\Form::class,
         'Html' => Collective\Html\HtmlFacade\Html::class,
+        'Helper' => ConCast\Helper\Helper::class,
 
     ],
 

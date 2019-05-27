@@ -1,32 +1,29 @@
 @extends('layouts.layout')
 
 @section('title')
-    | {{ __('title.channel') }}
+    | Discover channels
 @endsection
 
 @section('content')
-    <div class="container">
-        <div class="row justify-content-center">
-            <div class="col-md-8">
+    <div class="col-md-12">
+        <h1 class="modal-header">Discover channels</h1>
+
+        <div class="card-columns">
+            @foreach ($channels as $channel)
                 <div class="card">
-                    <div class="card-header">
-                        <span><a href="/">{{ __('title.home') }}</a> <i class="fas fa-long-arrow-alt-right"></i> {{ __('title.channel') }}</span>
-                    </div>
-
                     <div class="card-body">
-                        <h1>{{ __('title.channel') }}</h1>
-                        @guest
-
-                        @else
-                            <p><a href="/channel/create">Create channel</a></p>
-
-                            @foreach ($channels as $channel)
-                                <p><a href="/channel/{{ $channel->id }}">{{ $channel->channel_name }}</a> <a href="/channel/{{ $channel->id }}/edit"><i class="fas fa-edit"></i></a></p>
-                            @endforeach
-                        @endguest
+                        <h5 class="card-title">{{ $channel->channel_name }}</h5>
+                        <p class="card-text"><b>{{ $channel->channel_bio }}</b></p>
+                        <p class="card-text">{{ number_format($channel->subscriptions->count()) }} subscribers - {{ $channel->podcasts->count() }} podcasts</p>
+                        <a href="/channel/{{ $channel->id }}" class="btn btn-primary btn-block mt-3">Visit channel</a>
                     </div>
+                    @if ($latestUpload)
+                        <div class="card-footer">
+                            <small class="text-muted">Last active {{ Helper::calculatePostTime($latestUpload->created_at) }}</small>
+                        </div>
+                    @endif
                 </div>
-            </div>
+            @endforeach
         </div>
     </div>
 @endsection

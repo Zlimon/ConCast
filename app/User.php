@@ -40,4 +40,8 @@ class User extends Authenticatable
     public function channel() {
         return $this->hasMany(Channel::class);
     }
+
+    public function subscriptions() {
+        return $this->hasMany(Subscriber::class);
+    }
 }

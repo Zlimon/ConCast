@@ -16,23 +16,15 @@ use Illuminate\Support\Facades\Auth;
 class PodcastController extends Controller
 {
     public function show(Channel $channel, Podcast $podcast) {
-        $podcast = Podcast::where('channel_id', $channel->id)->with('comment')->findOrFail($podcast->id);
+        $podcast = Podcast::with('channel')->with('comment')->findOrFail($podcast->id);
 
-        $latestPodcast = Podcast::find($podcast->id)->orderbyDesc('created_at')->first();
-        $latestUpload = Carbon::parse($latestPodcast->created_at)->diffForHumans();
+        $latestUpload = Podcast::orderByDesc('created_at')->first();
 
         $timeAgo = CalculateTime::calculatePostTime($podcast->created_at);
 
         $audioLength = CalculateTime::calculateAudioLength($podcast->audio->audio_file_length);
 
-        $channelSubscriptions = Channel::with('subscriptions')->count();
-
-        if (Auth::check()) {
-            $userSubscriber = Subscriber::where('user_id', Auth::user()->id)->with('channel')->first();
-        }
-
-
-        return view('podcast.show', compact('podcast', 'latestUpload', 'timeAgo', 'audioLength', 'channelSubscriptions', 'userSubscriber'));
+        return view('podcast.show', compact('podcast', 'latestUpload', 'timeAgo', 'audioLength'));
     }
 
     public function edit(Channel $channel, Podcast $podcast) {
