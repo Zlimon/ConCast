@@ -37,7 +37,7 @@ class ChannelController extends Controller
     public function store() {
         request()->validate([
             'channel_name' => ['required', 'min:3', 'max:50'],
-            'channel_bio' => ['max:255']
+            'channel_bio' => ['max:1000']
         ]);
 
         $channel = Channel::create([
@@ -69,7 +69,7 @@ class ChannelController extends Controller
     public function update(Channel $channel) {
         $channel->update(request()->validate([
             'channel_name' => ['required', 'min:3', 'max:50'],
-            'channel_bio' => ['max:255']
+            'channel_bio' => ['max:1000']
         ]));
 
         return redirect('/channel/' . $channel->id)->with('message', 'Channel updated!');
