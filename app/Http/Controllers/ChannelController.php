@@ -22,7 +22,7 @@ class ChannelController extends Controller
     }
 
     public function show(Channel $channel) {
-        return view('channel.show', compact('channel', 'first', 'latestUpload'));
+        return view('channel.show', compact('channel'));
     }
 
     public function create() {
