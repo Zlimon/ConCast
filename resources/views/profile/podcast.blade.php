@@ -13,13 +13,16 @@
             </div>
 
             <div class="card-body">
-                <p class="float-right"><a href="/upload">Upload podcast</a></p>
+                <p class="float-right"><a href="/upload">Upload podcast <i class="fas fa-upload"></i></a></p>
 
                 <h2>Your podcasts</h2>
                 <ul>
                     @foreach ($channels as $channel)
                         @foreach ($channel->podcasts as $podcast)
-                            <li><a href="/channel/{{ $channel->id }}/podcast/{{ $podcast->id }}">{{ $podcast->podcast_title }}</a> <a href="/channel/{{ $channel->id }}/podcast/{{ $podcast->id }}/edit"><i class="fas fa-edit"></i></a></li>
+                            <li>
+                                <a href="/channel/{{ $channel->id }}/podcast/{{ $podcast->id }}">{{ $podcast->podcast_title }}</a>
+                                <a href="/channel/{{ $channel->id }}/podcast/{{ $podcast->id }}/edit"><i class="fas fa-edit"></i></a>
+                            </li>
                         @endforeach
                     @endforeach
                 </ul>

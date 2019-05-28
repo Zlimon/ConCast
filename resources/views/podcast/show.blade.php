@@ -14,35 +14,35 @@
 
             <div class="card-body">
                 <div class="row">
-                    <div class="col-3">
-                        <img class="rounded" src="{{ url('/storage/image')}}/{{ $podcast->channel->image->image_file_name }}.{{ $podcast->channel->image->image_file_extension }}" alt="Podcast icon" title="{{ $podcast->podcast_title }}" width="256px" height="256px" />
+                    <div class="col-md-3">
+                        <img class="rounded" style="width: 100%;" src="{{ url('/storage/image')}}/{{ $podcast->channel->image->image_file_name }}.{{ $podcast->channel->image->image_file_extension }}" alt="Podcast icon" title="{{ $podcast->podcast_title }}" width="256px" height="256px" />
                         <h2 class="mt-2"><a href="/channel/{{ $podcast->channel->id }}">{{ $podcast->channel->channel_name }}</a></h2>
-                        <h4>{{ number_format($podcast->channel->subscriptions->count()) }} subscribers</h4>
+                        <h4><strong>{{ number_format($podcast->channel->subscriptions->count()) }}</strong> subscribers</h4>
                         <p>Latest upload: {{ Helper::calculatePostTime($latestUpload->created_at) }}</p>
 
                         <div class="text-center">
                             @guest
-                                <p><a href="/login">Log in to subsribe to this channel</a></p>
+                                <p><a class="btn btn-primary" href="/login">Log in to subsribe to this channel</a></p>
                             @else
-                                @if (Helper::getUserSubscriber())
+                                @if (Helper::getUserSubscriber($podcast->channel->id))
                                     <form method="POST" action="/channel/{{ $podcast->channel->id }}/unsubscribe">
                                         @method('DELETE')
                                         @csrf
 
-                                        <button class="btn btn-danger btn-lg"><i class="fas fa-minus"></i> Unsubscribe</button>
+                                        <button class="btn btn-danger"><i class="fas fa-minus"></i> Unsubscribe</button>
                                     </form>
                                 @else
                                     <form method="POST" action="/channel/{{ $podcast->channel->id }}/subscribe">
                                         @csrf
 
-                                        <button class="btn btn-success btn-lg"><i class="fas fa-plus"></i> Subscribe</button>
+                                        <button class="btn btn-success"><i class="fas fa-plus"></i> Subscribe</button>
                                     </form>
                                 @endif
                             @endguest
                         </div>
                     </div>
 
-                    <div class="col-9">
+                    <div class="col-md-9">
                         <h1>{{ $podcast->podcast_title }}</h1>
                         <p><small>{{ $timeAgo }} | {{ $audioLength }}</small></p>
 
@@ -77,40 +77,39 @@
                                 </form>
                             @endif
 
-                            <button class="btn btn-dark btn-lg"><i class="fas fa-share"></i> Share this podcast</button>
+                            <button class="btn btn-lg btn-primary"><i class="fas fa-share"></i> Share this podcast</button>
                         </div>
 
-                        <section class="audio-player card mt-3">
-                            <div class="card bg-dark">
-                                <div class="card-body">
-                                    <h2 class="card-title col text-center text-light">{{ $podcast->podcast_title }}</h2>
-                                    <div class="row align-items-center mt-4 mb-3 mx-0">
-                                        <i id="play-button"class="material-icons play-pause text-primary mr-2" aria-hidden="true">play_circle_outline</i>
-                                        <i id="pause-button"class="material-icons play-pause d-none text-primary mr-2" aria-hidden="true">pause_circle_outline</i>
-                                        <i id="next-button"class="material-icons text-primary ml-2 mr-3" aria-hidden="true">skip_next</i>
-                                        <div class="col ml-auto rounded-circle p-1">
-                                            <img id="thumbnail" class="img-fluid rounded-circle" src="{{ url('/storage/image')}}/{{ $podcast->channel->image->image_file_name }}.{{ $podcast->channel->image->image_file_extension }}" alt="">
-                                        </div>
-                                    </div>
-                                    <div class="p-0 m-0 text-light" id="now-playing">
-                                        <p class="font-italic mb-0">Now Playing: </p>
-                                        <p class="lead" id="title"></p>
-                                    </div>
-                                    <div class="progress-bar progress col-12 mb-3"></div>
-                                </div>
-                                <ul class="playlist list-group list-group-flush">
-                                    <li audio_url="{{ url('/storage/audio', $podcast->audio->audio_file_name . '.' . $podcast->audio->audio_file_extension) }}"
-                                    img_url="{{ url('/storage/image')}}/{{ $podcast->channel->image->image_file_name }}.{{ $podcast->channel->image->image_file_extension }}"
-                                    class="active list-group-item playlist-item">
-                                    {{ $podcast->podcast_title }}</li>
+                        <div class="audio-player mt-3">
+                            <audio id="audio" preload="auto" tabindex="0" controls="" type="audio/mpeg">
+                            <source type="audio/mp3" src="{{ url('/storage/audio', $podcast->audio->audio_file_name . '.' . $podcast->audio->audio_file_extension) }}">
+                                Sorry, your browser does not support HTML5 audio.
+                            </audio>
+                            <ul id="playlist">
+                                <li class="active">
+                                    <a href="{{ url('/storage/audio', $podcast->audio->audio_file_name . '.' . $podcast->audio->audio_file_extension) }}">
+                                        <div class="row">
+                                            <div class="col-md-2">
+                                                <img class="rounded border border-dark" style="width: 75px;" src="{{ url('/storage/image')}}/{{ $podcast->channel->image->image_file_name }}.{{ $podcast->channel->image->image_file_extension }}" alt="Podcast icon" title="{{ $podcast->channel->channel_name }}">
+                                            </div>
 
-                                </ul>
-                                 <div class="card-body">
-                                    <a class="btn btn-primary btn-lg" href="{{ url('/storage/audio', $podcast->audio->audio_file_name . '.' . $podcast->audio->audio_file_extension) }}" download>Download {{ $podcast->podcast_title }}</a>
-                                </div>
-                            </div>
-                            <audio id="audio-player" class="d-none" src="" type="{{ url('/storage/audio', $podcast->audio->audio_file_name . '.' . $podcast->audio->audio_file_extension) }}" controls="controls"></audio>
-                        </section>
+                                            <div class="col-md-9">
+                                                <strong>{{ $podcast->podcast_title }}</strong> {{ Helper::calculateAudioLength($podcast->audio->audio_file_length) }}
+                                                <br>
+                                                <small>
+                                                    <span class="mr-4">{{ Helper::calculatePostTime($podcast->created_at) }}</span>
+                                                    <span class="mr-2"><i class="fas fa-plus"></i> Play later</span>
+                                                    <span class="mr-2"><i class="fas fa-save"></i> Save</span>
+                                                    <span class="mr-2"><i class="fas fa-heart"></i> Like</span>
+                                                    <span class="mr-2"><i class="fas fa-file-download"></i> Download</span>
+                                                </small>
+                                            </div>
+                                        </div>
+                                    </a>
+                                </li>
+                                <li><h4 class="text-center border border-dark"><a href="">Download podcast</a></h4></li>
+                            </ul>
+                        </div>
 
                         <h1 class="modal-header">Comments</h1>
                         @guest

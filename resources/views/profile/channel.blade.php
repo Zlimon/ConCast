@@ -13,7 +13,7 @@
             </div>
 
             <div class="card-body">
-                <p class="float-right"><a href="/channel/create">Create channel</a></p>
+                <p class="float-right"><a href="/channel/create">Create new channel <i class="fas fa-plus"></i></a></p>
 
                 <h2>Your channels</h2>
                 <ul>

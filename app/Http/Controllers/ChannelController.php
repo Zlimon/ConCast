@@ -11,21 +11,17 @@ use Validator;
 use Illuminate\Support\Str;
 use ConCast\Image;
 
+use ConCast\Subscriber;
+
 class ChannelController extends Controller
 {
     public function index() {
         $channels = Channel::get();
 
-        $latestUpload = Podcast::with('channel')->orderByDesc('created_at')->first();
-
-        return view('channel.channel', compact('channels', 'latestUpload'));
+        return view('channel.channel', compact('channels'));
     }
 
     public function show(Channel $channel) {
-        $first = Podcast::find($channel);
-
-        $latestUpload = Podcast::with('channel')->orderByDesc('created_at')->first();
-
         return view('channel.show', compact('channel', 'first', 'latestUpload'));
     }
 

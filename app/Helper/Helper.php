@@ -8,8 +8,8 @@ use ConCast\Subscriber;
 
 class Helper
 {
-    public static function getUserSubscriber() {
-        $checkIfUserSubscribed = Subscriber::where('user_id', Auth::user()->id)->with('channel')->first();
+    public static function getUserSubscriber($channelId) {
+        $checkIfUserSubscribed = Subscriber::with('channel')->where('user_id', Auth::user()->id)->where('channel_id', $channelId)->first();
 
         if ($checkIfUserSubscribed) {
             return true;

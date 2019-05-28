@@ -14,41 +14,49 @@
 
             <div class="card-body">
                 <div class="row">
-                    <div class="col-9">
+                    <div class="col-md-8">
                         <h1>Welcome back, {{ Auth::user()->name }}</h1>
                     </div>
 
-                    <div class="col-3 text-right">
-                        <p style="display: inline;">{{ Auth::user()->name }}<i style="font-size: 2em; vertical-align: middle;" class="fas fa-user ml-1"></i></p>
-                        <br>
-                        <p style="display: inline;">{{ Auth::user()->email }}<i style="font-size: 2em; vertical-align: middle;" class="fas fa-envelope-square ml-1"></i></p>
-                        <br>
-                        <p style="display: inline;"><a href="/channel/create">Create channel</a><i style="font-size: 2em; vertical-align: middle;" class="fas fa-plus ml-1"></i></p>
-                        <br>
+                    <div class="col-md-4 text-right">
+                        <ul style="list-style: none;">
+                            <li>{{ Auth::user()->name }} <i style="font-size: 2em; vertical-align: middle;" class="fas fa-user ml-1"></i></li>
+                            <li>{{ Auth::user()->email }} <i style="font-size: 2em; vertical-align: middle;" class="fas fa-envelope-square ml-1"></i></li>
+                            <li><a href="/channel/create">Create channel <i style="font-size: 2em; vertical-align: middle;" class="fas fa-plus ml-1"></i></a></li>
+                            <li><a href="/upload">Upload podcast <i style="font-size: 2em; vertical-align: middle;" class="fas fa-upload"></i></a></li>
+                        </ul>
                     </div>
                 </div>
 
                 <div class="row">
-                    <div class="col-6">
-                        <h2>Your top channels</h2>
-                        <ul>
-                            @foreach ($channels as $channel)
-                                <li><a href="/channel/{{ $channel->id }}">{{ $channel->channel_name }}</a> <a href="/channel/{{ $channel->id }}/edit"><i class="fas fa-edit"></i></a></li>
-
-                                <ul>
-                                    @foreach ($channel->podcasts as $podcast)
-                                        <li><a href="/channel/{{ $channel->id }}/podcast/{{ $podcast->id }}">{{ $podcast->podcast_title }}</a> <a href="/channel/{{ $channel->id }}/podcast/{{ $podcast->id }}/edit"><i class="fas fa-edit"></i></a></li>
-                                    @endforeach
-                                </ul>
-                            @endforeach
-                        </ul>
+                    <div class="col-md-6">
+                        <h2>Your channels</h2>
+                        @foreach ($channels as $channel)
+                            <a href="/channel/{{ $channel->id }}">
+                                <img class="rounded-circle p-1" style="width: 150px;" src="{{ url('/storage/image')}}/{{ $channel->image->image_file_name }}.{{ $channel->image->image_file_extension }}" alt="Channel image" title="{{ $channel->channel_name }}">
+                            </a>
+                        @endforeach
                     </div>
 
-                    <div class="col-6">
-                        <h2>Your top podcasts</h2>
+                    <div class="col-md-6">
+                        <h2>Your channel podcasts</h2>
                         <ul>
-                            @foreach ($channel->podcasts as $podcast)
-                                <li><a href="/channel/{{ $channel->id }}/podcast/{{ $podcast->id }}">{{ $podcast->podcast_title }}</a> <a href="/channel/{{ $channel->id }}/podcast/{{ $podcast->id }}/edit"><i class="fas fa-edit"></i></a></li>
+                            @foreach ($channels as $channel)
+                                <li class="bg-light">
+                                    <a href="/channel/{{ $channel->id }}">
+                                        <img class="rounded-left mr-2" style="width: 50px; margin-left: -35px;" src="{{ url('/storage/image')}}/{{ $channel->image->image_file_name }}.{{ $channel->image->image_file_extension }}" alt="Podcast icon" title="{{ $channel->channel_name }}">{{ $channel->channel_name }}
+                                    </a>
+                                    <a href="/channel/{{ $channel->id }}/edit"><i class="fas fa-edit"></i></a>
+                                </li>
+
+                                <ul style="margin-bottom: 25px;">
+                                    @foreach ($channel->podcasts as $podcast)
+                                        <li>
+                                            <a href="/channel/{{ $channel->id }}/podcast/{{ $podcast->id }}">{{ $podcast->podcast_title }}</a>
+                                            <a href="/channel/{{ $channel->id }}/podcast/{{ $podcast->id }}/edit"><i class="fas fa-edit"></i></a>
+                                        </li>
+                                    @endforeach
+                                </ul>
                             @endforeach
                         </ul>
                     </div>

@@ -16,7 +16,7 @@ class SearchController extends Controller
 
     public function search() {
         request()->validate([
-            'search' => ['required', 'string', 'min:1', 'max:200'],
+            'search' => ['required', 'string', 'max:200'],
         ]);
 
         $searchQuery = request('search');
@@ -26,9 +26,10 @@ class SearchController extends Controller
                 ->orWhere('podcast_description', 'LIKE', '%' . $searchQuery . '%');
         })->paginate(10);
 
-        $latestUpload = Podcast::orderByDesc('created_at')->first();
-
-        $channels = Channel::where('channel_name', 'LIKE', '%' . $searchQuery . '%')->paginate(10);
+        $channels = Channel::where(function($query) use ($searchQuery) {
+            $query->where('channel_name', 'LIKE', '%' . $searchQuery . '%')
+                ->orWhere('channel_bio', 'LIKE', '%' . $searchQuery . '%');
+        })->paginate(10);
 
         if (count($podcasts) === 0 && count($channels) === 0) {
             return redirect('/search')->withErrors(['No search results for "'.$searchQuery.'"!']);

@@ -1,49 +1,106 @@
 .podcast-description {
-    text-overflow: ellipsis;
+	text-overflow: ellipsis;
 }
 
 .footer {
-    bottom: 0;
-    width: 100%;
-    height: 60px;
-    line-height: 60px;
-    background-color: #f5f5f5;
+	bottom: 0;
+	width: 100%;
+	height: 60px;
+	line-height: 60px;
+	background-color: #f5f5f5;
 }
 
 .rating {
-    overflow: hidden;
-    display: inline-block;
+	overflow: hidden;
+	display: inline-block;
 }
 
 .rating-input {
-    float: right;
-    width: 35px;
-    height: 35px;
-    padding: 0;
-    margin: 0 0 0 -35px;
-    opacity: 0;
+	float: right;
+	width: 35px;
+	height: 35px;
+	padding: 0;
+	margin: 0 0 0 -35px;
+	opacity: 0;
 }
 
 .rating-star {
-    cursor: pointer;
-    position: relative;
-    display: block;
-    width: 35px;
-    height: 35px;
+	cursor: pointer;
+	position: relative;
+	display: block;
+	width: 35px;
+	height: 35px;
 }
 
 .rating:hover .rating-star:hover,
 .rating:hover .rating-star:hover ~ .rating-star,
 .rating-input:checked ~ .rating-star {
-    background: url('/images/star-solid.svg') no-repeat;
+	background: url('/images/star-solid.svg') no-repeat;
 }
 
 .rating-star,
 .rating:hover .rating-star {
-    position: relative;
-    float: right;
-    display: block;
-    width: 35px;
-    height: 35px;
-    background: url('/images/star-regular.svg') no-repeat;
+	position: relative;
+	float: right;
+	display: block;
+	width: 35px;
+	height: 35px;
+	background: url('/images/star-regular.svg') no-repeat;
+}
+
+.radio_item {
+	display: none !important;
+}
+
+.label_item {
+	opacity: 0.5;
+	padding: 5px;
+	width: 100%;
+}
+
+.radio_item:checked + label {
+	opacity: 1;
+	padding: 5px;
+	background: #3490dc;
+	border-radius: 3px;
+	width: 100%;
+}
+
+label {
+	cursor: pointer;
+}
+
+audio {
+	height: 100px;
+}
+
+.audio-player #playlist, audio {
+  background: #343a40;
+  width: 100%;
+  padding: 20px;
+  list-style: none;
+  border-radius: .25rem;
+}
+
+#playlist {
+	margin-top: -20px;
+}
+
+.audio-player .active a {
+  color: white;
+  text-decoration: none;
+  background: #3490dc;
+}
+
+.audio-player li a {
+  color: black;
+  background: white;
+  padding: 15px;
+  display: block;
+}
+
+.audio-player li a:hover {
+  text-decoration: none;
+  background: #343a40;
+  color: white;
 }

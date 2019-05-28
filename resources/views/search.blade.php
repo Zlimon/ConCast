@@ -29,22 +29,25 @@
 		</form>
 
 		@if ($searchQuery)
-			<h1 class="modal-header">Search results for "{{ $searchQuery }}"</h1>
+			<h1 class="ml-3">Search results for "{{ $searchQuery }}"</h1>
+			<span class="modal-header mb-3">Found {{ count($channels) }} channels and {{ count($podcasts) }} podcasts</span>
 
 			<div class="card-columns">
 				@foreach ($podcasts as $podcast)
 					<div class="card">
-						<img class="card-img-top" src="{{ url('/storage/image')}}/{{ $podcast->channel->image->image_file_name }}.{{ $podcast->channel->image->image_file_extension }}" alt="Podcast icon" title="{{ $podcast->podcast_title }}" width="150px" height="150px" />
+						<a href="/channel/{{ $podcast->channel->id }}/podcast/{{ $podcast->id }}">
+							<img class="card-img-top" style="height: 275px;"  src="{{ url('/storage/image')}}/{{ $podcast->channel->image->image_file_name }}.{{ $podcast->channel->image->image_file_extension }}" alt="Podcast icon" title="{{ $podcast->podcast_title }}">
+						</a>
 						<div class="card-body">
 							<h5 class="card-title">{{ $podcast->podcast_title }}</h5>
 							<p class="card-text">
 								@if (strlen($podcast->podcast_description) > 250)
-									{{ substr($podcast->podcast_description, 0, 250) }}...
+									{{ substr($podcast->podcast_description, 0, 250) }}... <a href="/channel/{{ $podcast->channel->id }}/podcast/{{ $podcast->id }}">Read more</a>
 								@else
 									{{ $podcast->podcast_description }}
 								@endif
 							</p>
-							<a href="/channel/{{ $podcast->channel->id }}/podcast/{{ $podcast->id }}" class="btn btn-primary btn-block mt-3">Visit podcast</a>
+							<a href="/channel/{{ $podcast->channel->id }}/podcast/{{ $podcast->id }}" class="btn btn-primary btn-block mt-3">Listen to podcast</a>
 						</div>
 						<div class="card-footer">
 							<small class="text-muted">
@@ -58,17 +61,24 @@
 
 				@foreach ($channels as $channel)
 					<div class="card">
+						<a href="/channel/{{ $channel->id }}">
+							<img class="card-img-top" style="height: 275px;" src="{{ url('/storage/image')}}/{{ $channel->image->image_file_name }}.{{ $channel->image->image_file_extension }}" alt="Channel image" title="{{ $channel->channel_name }}">
+						</a>
 						<div class="card-body">
 							<h5 class="card-title">{{ $channel->channel_name }}</h5>
-							<p class="card-text"><b>{{ $channel->channel_bio }}</b></p>
-							<p class="card-text">{{ number_format($channel->subscriptions->count()) }} subscribers - {{ $channel->podcasts->count() }} podcasts</p>
+							<p class="card-text"><b>
+								@if (strlen($channel->channel_bio) > 250)
+									{{ substr($channel->channel_bio, 0, 250) }}... <a href="/channel/{{ $channel->id }}">Read more</a>
+								@else
+									{{ $channel->channel_bio }}
+								@endif
+							</b></p>
 							<a href="/channel/{{ $channel->id }}" class="btn btn-primary btn-block mt-3">Visit channel</a>
 						</div>
-						@if ($latestUpload)
-							<div class="card-footer">
-								<small class="text-muted">Last active {{ Helper::calculatePostTime($latestUpload->created_at) }}</small>
-							</div>
-						@endif
+						<div class="card-footer">
+							<small class="text-muted">Last active {{ ($channel->podcasts->count() ? Helper::calculatePostTime($channel->podcasts->last()->created_at) : 'Never') }}</small>
+							<small>{{ number_format($channel->subscriptions->count()) }} subscribers - {{ $channel->podcasts->count() }} podcasts</small>
+						</div>
 					</div>
 				@endforeach
 			</div>
